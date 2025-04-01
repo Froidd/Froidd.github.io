@@ -1,0 +1,170 @@
+body {
+    background-color: rgb(0, 0, 0) !important;
+}
+#Title {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+
+    animation: multicolortext 6s ease-in-out infinite alternate-reverse;
+}
+@keyframes multicolortext {
+    0% {
+        text-shadow: 0 0 10px rgb(255, 0, 0), 0 0 20px rgb(255, 60, 0);
+        -webkit-text-fill-color: rgb(255, 60, 0);
+    }
+    50% {
+        text-shadow: 0 0 10px rgb(0, 255, 0), 0 0 20px rgb(60, 255, 0);
+        -webkit-text-fill-color: rgb(60, 255, 0);
+    }
+    100% {
+        text-shadow: 0 0 10px rgb(0, 0, 255), 0 0 20px rgb(0, 102, 255);
+        -webkit-text-fill-color: rgb(0, 102, 255);
+    }
+}
+#Normal{
+    color: antiquewhite;
+
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 15px;
+}
+#Bold{
+    color: antiquewhite;
+
+    font-size: 18px;
+
+    text-shadow:  1 1 3px red;
+    -webkit-text-stroke: 0.5px;
+    text-decoration-thickness: 1px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+#UltraBold{
+
+    color: antiquewhite;
+
+    font-size: 18px;
+
+    text-shadow: 0 0 1px rgb(0, 0, 0);
+    -webkit-text-stroke: 1px;
+    text-decoration-thickness: 2px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+#UELogo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 20px;
+    border: 50px solid rgb(0, 0, 0);
+    box-shadow: 0 0 10px rgb(29, 29, 29);
+    width: 50%; /* Make the video take the full width of the container */
+    height: auto; /* Maintain aspect ratio */
+}
+#UELogo:hover {
+    animation: UEAnim 0.25s ease-in-out forwards;
+}
+#UELogo:not(:hover) {
+    animation-play-state: reverse;
+}
+@keyframes UEAnim {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.05);
+    }
+}
+#FormButton {
+    background-color: rgb(14, 13, 13);
+    color: antiquewhite;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+#FormButton:hover {
+    background-color: rgb(34, 33, 33);
+    color: rgb(0, 102, 255);
+    border: 2px solid rgb(0, 102, 255);
+}
+#name, #email, #phone, #miscinfo {
+    background-color: rgb(20, 20, 20);
+    color: antiquewhite;
+    border: 2px solid rgb(50, 50, 50);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+}
+#Proyecto {
+    font-size: x-large;
+    color: antiquewhite;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    box-shadow: 5px 5px 10px rgb(195, 0, 255), -5px -5px 20px rgb(195, 0, 255);
+    background-color: rgb(20, 20, 20);
+    color: antiquewhite;
+    border: 3px solid rgb(50, 50, 50);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+#ProyectTitle{
+    margin: auto;
+    font-size: x-large;
+    color: antiquewhite;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font: 100 ;
+}
+#LineBreak {
+    color-interpolation-filters: auto;
+    border-radius: 100%;
+    width: 100%;
+    height: px;
+    border: none;
+    border-top: 2px solid gray;
+    margin: 20px 0;
+    background-color: transparent;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+    animation: glow 10s infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+    100% {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 255, 255, 0.7), 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+}
+a {
+    color: rgb(0, 102, 255);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: rgb(0, 153, 255);
+
+    animation: alternate-reverse 1s linear infinite multicolortextlink; 
+}
+
+@keyframes multicolortextlink {
+    0% {
+        text-shadow: 0 0 10px rgb(255, 0, 0), 0 0 20px rgb(255, 60, 0);
+        -webkit-text-fill-color: rgb(255, 60, 0);
+        font-size: 20.2px;
+    }
+    50% {
+        text-shadow: 0 0 10px rgb(0, 255, 0), 0 0 20px rgb(60, 255, 0);
+        -webkit-text-fill-color: rgb(60, 255, 0);
+
+    }
+    100% {
+        text-shadow: 0 0 10px rgb(0, 0, 255), 0 0 20px rgb(0, 102, 255);
+        -webkit-text-fill-color: rgb(0, 102, 255);
+
+    }
+}

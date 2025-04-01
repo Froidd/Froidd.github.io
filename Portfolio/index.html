@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<head>
+<!--Metadata-->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio de Unreal Engine de Froid. Contiene información sobre mis habilidades y conocimientos en Unreal Engine, así como un formulario de contacto.">
+    <meta name="keywords" content="Unreal Engine, Portfolio, Programación, Blueprints, Chaos Vehicles, Física, Sistemas de Interacción, Inteligencia Artificial, Desarrollo de Juegos">
+    <meta name="author" content="Froid">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Portfolio Unreal Engine - Froid">
+    <meta property="og:description" content="Explora mi experiencia y habilidades en Unreal Engine, incluyendo Blueprints, Chaos Vehicles, y más. Contáctame a través del formulario.">
+    <meta property="og:image" content="UELogo.png">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta property="og:type" content="website">
+    <meta lang="es"> 
+
+    <link rel="stylesheet" href="style.css"> <!-- Link a la hoja de estilos CSS -->
+    
+    <title>Portfolio Froid</title>
+
+    <link rel="icon" href="Media/favicon.ico" type="image/x-icon"> <!-- Icono de la pestaña del navegador -->
+
+</head>
+<body>
+    <h1 id="Title">Portfolio Froid</h1>
+    <video loop muted autoplay id="UELogo" src="/Media/Unreal Engine Splash Screen Logo Animation.mp4" width="320" height="240"></video>
+
+    <br> <!-- Hace espacio, guarreada histórica -->
+
+    <p id="Bold" style="text-align: center;">+4 años programando en 
+        Unreal Engine mecánicas, prototipos y juegos para desarrollar habilidades de programación para crear experiencias, mods, etc...</p> 
+
+    <h1 id="Title">Índice</h1>
+    <ul>
+        <li id="UltraBold"><a href="#Conocimientos">Conocimientos</a></li>
+        <li id="UltraBold"><a href="#Proyectos">Proyectos</a></li>
+    </ul>
+
+    <br>
+    <br id="Conocimientos">
+    <p id="Bold"><strong>¿Qué conocimientos poseo?</strong></p>
+
+    <ul>
+        <li id="UltraBold">Blueprints
+            <br>
+            <br>
+            <ul>
+                <li id="Bold">Vehículos Chaos</li>
+                <li id="Bold">Sistemas de Interacción dinámica</li>
+                <li id="Bold">IA</li>
+                <li id="Bold">Físicas</li>
+                <li id="Bold">Replicación (Multijugador)</li>
+            </ul>
+            <br>
+            <br>
+        </li>
+        <br>
+        <li id="UltraBold">Animaciones
+            <br>
+            <br>
+            <ul>
+                <li id="Bold">IK's</li>
+                <li id="Bold">Animaciones Físicas</li>
+            </ul>
+            <br>
+            <br>
+        </li>
+        <li id="UltraBold">Git
+            <br>
+            <br>
+            <ul>
+                <li id="Bold">Version Control para Unreal</li>
+                <li id="Bold">Git LFS</li>
+            </ul>
+            <br>
+            <br>
+    </ul>
+
+    <br>
+    <br>
+    <br id="Proyectos">
+    <div id="LineBreak"></div> <!-- Línea de separación -->
+
+    <p id="Bold"><strong>Proyectos</strong></p>
+    <div id="Proyecto" style="display: flex; align-items: left; margin: 0 auto; gap: 20px; max-width: 1200px; width: 50%; max-height: 1200; height: 100%;">
+        <div style="flex: 1;">
+            <h2 id="ProyectTitle" style="text-align:left;">Half Sword Quality Of Life Mod</h2>
+            <p id="Normal" style="font-size: 20px;">En este proyecto usé ingeniería inversa para crear un mod de <a href="https://store.steampowered.com/app/2397300/Half_Sword/">Half Sword</a>, el cual mejoraba el juego de diferentes formas, con cámara lenta, spawner de ítems, creador de presets para guardar tus armas y/o armaduras. También añade una mejora gráfica usando postprocesado, utilizando un <a href="https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/dynamic-link-library">DLL</a> que se inyecta y puede hacer cambios en el juego, empleando las funciones de Unreal para crear el mod.</p>
+            <a href="https://www.nexusmods.com/halfsword/mods/18" target="_blank" style="text-decoration: none;">
+                <button id="FormButton" style="width: 60px; height: 40px; display: flex; align-items: center; justify-content: center; margin-top: 10px;">
+                    <img src="/Media/image-removebg-preview.png" alt="" style="width: 70px; height: 60px;">
+                </button>
+                <a href="https://github.com/Froidd" target="_blank" style="text-decoration: none;">
+                    <button id="FormButton" style="width: 60px; height: 40px; display: flex; align-items: center; justify-content: center; margin-top: 10px;">
+                        <img src="/Media/GitHub-Symbol.png" alt="" style="width: 70px; height: 30px; color: white;">
+                    </button>
+            </a>
+        </div>
+        <video style="border-radius: 22%;" src="Media/VideoHS.mp4" width="432" height="380" autoplay loop muted></video>
+    </div>
+
+    <br>
+    <div id="LineBreak"></div> <!-- Línea de separación -->
+
+    <p id="Bold">Contacto</p>
+    
+    <form action="https://formsubmit.co/fazeares6567@gmail.com" method="POST">
+        <div style="padding: 10px;">
+            <input type="text" id="name" name="Nombre" placeholder="Pepito Sánchez" required />
+        </div>
+        <div style="padding: 10px">
+            <input type="email" id="email" name="Email" placeholder="examplemail@gmail.com" required />
+        </div>
+        <div style="padding: 10px">
+            <input type="tel" id="phone" name="Teléfono" placeholder="+34 123 456 789" />
+        </div>
+        <div style="padding: 10px">
+            <input type="text" id="miscinfo" name="Información Adicional" placeholder="Información Adicional" />
+        </div>
+        <br>
+        <br>
+        <div style="padding-left: 25px; padding-bottom: 50px;">
+            <button style="width: 200px; height: 100px;" id="FormButton" type="submit">Enviar</button>
+        </div>
+    </form>
+</body>
