@@ -57,22 +57,13 @@ body {
     border-radius: 20px;
     border: 50px solid rgb(0, 0, 0);
     box-shadow: 0 0 10px rgb(29, 29, 29);
-    width: 50%; /* Make the video take the full width of the container */
-    height: auto; /* Maintain aspect ratio */
+    width: 50%; 
+    height: auto; 
+    transition: 0.3s ease-in-out;
 }
 #UELogo:hover {
-    animation: UEAnim 0.25s ease-in-out forwards;
-}
-#UELogo:not(:hover) {
-    animation-play-state: reverse;
-}
-@keyframes UEAnim {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.05);
-    }
+    transform: scale(1.05);
+
 }
 #FormButton {
     background-color: rgb(14, 13, 13);
@@ -82,12 +73,14 @@ body {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:  0.1s ease-in-out, color 0.1s ease-in-out;
 }
 #FormButton:hover {
     background-color: rgb(34, 33, 33);
     color: rgb(0, 102, 255);
     border: 2px solid rgb(0, 102, 255);
+    transform: translate(0, -5px);
+    transform: scale(1.2);
 }
 #name, #email, #phone, #miscinfo {
     background-color: rgb(20, 20, 20);
@@ -101,7 +94,7 @@ body {
     font-size: x-large;
     color: antiquewhite;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    box-shadow: 5px 5px 10px rgb(47, 0, 255), -5px -5px 20px rgb(195, 0, 255);
+    box-shadow: 5px 5px 10px #2f00ff, -5px -5px 20px #2f00ff;
     background-color: rgb(20, 20, 20);
     color: antiquewhite;
     border: 3px solid rgb(50, 50, 50);
@@ -143,28 +136,9 @@ body {
 a {
     color: rgb(0, 102, 255);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: 0.1s ease-in-out;
 }
 a:hover {
     color: rgb(0, 153, 255);
-
-    animation: alternate-reverse 1s linear infinite multicolortextlink; 
-}
-
-@keyframes multicolortextlink {
-    0% {
-        text-shadow: 0 0 10px rgb(255, 0, 0), 0 0 20px rgb(255, 60, 0);
-        -webkit-text-fill-color: rgb(255, 60, 0);
-        font-size: 20.2px;
-    }
-    50% {
-        text-shadow: 0 0 10px rgb(0, 255, 0), 0 0 20px rgb(60, 255, 0);
-        -webkit-text-fill-color: rgb(60, 255, 0);
-
-    }
-    100% {
-        text-shadow: 0 0 10px rgb(0, 0, 255), 0 0 20px rgb(0, 102, 255);
-        -webkit-text-fill-color: rgb(0, 102, 255);
-
-    }
+    font-size: 21px;
 }
