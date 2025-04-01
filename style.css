@@ -4,22 +4,13 @@ body {
 #Title {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     text-align: center;
-
-    animation: multicolortext 6s ease-in-out infinite alternate-reverse;
+    color: rgb(0, 102, 255);
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
-@keyframes multicolortext {
-    0% {
-        text-shadow: 0 0 10px rgb(255, 0, 0), 0 0 20px rgb(255, 60, 0);
-        -webkit-text-fill-color: rgb(255, 60, 0);
-    }
-    50% {
-        text-shadow: 0 0 10px rgb(0, 255, 0), 0 0 20px rgb(60, 255, 0);
-        -webkit-text-fill-color: rgb(60, 255, 0);
-    }
-    100% {
-        text-shadow: 0 0 10px rgb(0, 0, 255), 0 0 20px rgb(0, 102, 255);
-        -webkit-text-fill-color: rgb(0, 102, 255);
-    }
+
+#Title:hover {
+    transform: scale(1.2) rotate(2deg);
+    color: rgb(0, 195, 255);
 }
 #Normal{
     color: antiquewhite;
