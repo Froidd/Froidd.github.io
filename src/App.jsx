@@ -189,8 +189,8 @@ const projects = [
                 <div className="absolute -bottom-2 left-0 w-16 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
               </h2>
               <p className="text-lg text-gray-300 leading-relaxed relative z-10">
-                Apasionado por <span className="text-blue-400 font-semibold">Desde 2021</span> he estado fascinado por <span className="text-green-400 font-semibold">Unreal Engine</span> y he invertido más de 4 años en el desarrollo de experiencias interactivas y entornos virtuales envolventes.
-                <br />
+                Apasionado por <span className="text-blue-400 font-semibold">Desde 2021</span> he estado fascinado por <span className="text-green-400 font-semibold">Unreal Engine</span> y he invertido más de <span className="text-blue-400 font-semibold">4</span> años en el desarrollo de experiencias interactivas y entornos virtuales envolventes.
+
                 Mi conocimiento comprende el diseño de niveles, la secuenciación de blueprints, la iluminación y los métodos de optimización que infunden vida a los universos virtuales.
               </p>
               <p className="text-lg text-gray-300 leading-relaxed relative z-10">
