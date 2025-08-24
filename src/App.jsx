@@ -4,6 +4,7 @@ import { FaBeer } from 'react-icons/fa';
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Text3D, OrbitControls } from '@react-three/drei'
 import { useRef } from 'react'
+import screenshot from './assets/ScreenShot002.png';
 
 const UnrealEnginePortfolio = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -34,7 +35,7 @@ const projects = [
     title: "Half Sword Quality Of Life Mod",
     category: "Miscellaneous",
     description: "En este proyecto usé ingeniería inversa para crear un mod de Half Sword, el cual mejoraba el juego de diferentes formas, con cámara lenta, spawner de ítems, creador de presets para guardar tus armas y/o armaduras. También añade una mejora gráfica usando postprocesado, utilizando un DLL que se inyecta y puede hacer cambios en el juego, empleando las funciones de Unreal para crear el mod.",
-    image: "src/assets/ScreenShot002.png",
+    image: screenshot,
     tech: ["Unreal Engine 4", "C++", "DLL Injection", "Reverse Engineering", "Post-Processing"],
     year: "2025",
     githubUrl: "https://github.com/Froidd/Half-Sword-Quality-Of-Life-Mod",
