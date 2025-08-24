@@ -32,11 +32,11 @@ const progreso = ((niveles.indexOf(nivelActual) + 1) / niveles.length) * 100;
 const projects = [
   {
     id: 1,
-    title: "Half Sword Quality Of Life Mod",
+    title: "Half Sword Quality Of Life",
     category: "Miscellaneous",
     description: "En este proyecto usé ingeniería inversa para crear un mod de Half Sword, el cual mejoraba el juego de diferentes formas, con cámara lenta, spawner de ítems, creador de presets para guardar tus armas y/o armaduras. También añade una mejora gráfica usando postprocesado, utilizando un DLL que se inyecta y puede hacer cambios en el juego, empleando las funciones de Unreal para crear el mod.",
     image: screenshot,
-    tech: ["Unreal Engine 4", "C++", "DLL Injection", "Reverse Engineering", "Post-Processing"],
+    tech: ["Unreal Engine 5", "C++", "DLL Injection", "Reverse Engineering", "Post-Processing"],
     year: "2025",
     githubUrl: "https://github.com/Froidd/Half-Sword-Quality-Of-Life-Mod",
     demoUrl: "https://www.nexusmods.com/halfsword/mods/18",
@@ -150,15 +150,17 @@ const projects = [
 
           {/* CTA Button */}
           <div className="relative">
-            <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 glow-pulse">
+            <button 
+              onClick={() => document.getElementById("proyectos").scrollIntoView({ behavior: "smooth" })}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 glow-pulse">
               Explorar Proyectos
             </button>
           </div>
-        </div>
         
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="p-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700/50">
-            <ChevronDown className="w-6 h-6 text-gray-400" />
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div className="p-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700/50">
+              <ChevronDown className="w-6 h-6 text-gray-400" />
+            </div>
           </div>
         </div>
       </section>
@@ -243,18 +245,6 @@ const projects = [
         </div>
       </section>
 
-      {/* Another decorative divider */}
-      <div className="relative py-8">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-full max-w-6xl h-px bg-gradient-to-r from-transparent via-purple-400/50 to-transparent"></div>
-        </div>
-        <div className="relative flex justify-center">
-          <div className="bg-gray-900 px-6 py-2 rounded-full border border-purple-400/30">
-            <Gamepad2 className="w-6 h-6 text-purple-400" />
-          </div>
-        </div>
-      </div>
-
       {/* Sección de Proyectos */}
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto relative">
         {/* Background decorations */}
@@ -263,6 +253,7 @@ const projects = [
 
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+            <section id="proyectos" className="py-20 px-4 md:px-8 max-w-7xl mx-auto relative"></section>
             Mis Proyectos Destacados
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto rounded-full mb-6"></div>
@@ -306,37 +297,6 @@ const projects = [
                   )}
                   
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {/* Enhanced action buttons */}
-                  {(project.githubUrl || project.demoUrl) && (
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0">
-                      <div className="flex space-x-2">
-                        {project.githubUrl && (
-                          <a 
-                            href={project.githubUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="bg-black/70 backdrop-blur-sm rounded-full p-3 hover:bg-gray-700 hover:scale-110 transition-all duration-300 border border-gray-600/50 hover:border-gray-400"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Github className="w-4 h-4" />
-                          </a>
-                        )}
-                        {project.demoUrl && (
-                          <a 
-                            href={project.demoUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="bg-gradient-to-r from-blue-600/80 to-purple-600/80 backdrop-blur-sm rounded-full p-3 hover:from-blue-600 hover:to-purple-600 hover:scale-110 transition-all duration-300 border border-blue-400/30"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
                   {/* Bottom action buttons */}
                   {(project.githubUrl || project.demoUrl) && (
                     <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
@@ -405,14 +365,14 @@ const projects = [
         </div>
       </section>
 
-      {/* Final decorative divider */}
+      {/* Another decorative divider */}
       <div className="relative py-8">
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-full max-w-6xl h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent"></div>
+          <div className="w-full max-w-6xl h-px bg-gradient-to-r from-transparent via-purple-400/50 to-transparent"></div>
         </div>
         <div className="relative flex justify-center">
-          <div className="bg-gray-900 px-6 py-2 rounded-full border border-cyan-400/30">
-            <Mail className="w-6 h-6 text-cyan-400" />
+          <div className="bg-gray-900 px-6 py-2 rounded-full border border-purple-400/30">
+            <Gamepad2 className="w-6 h-6 text-purple-400" />
           </div>
         </div>
       </div>
