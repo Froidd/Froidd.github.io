@@ -1,8 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/Porttfolio-Web/Project/",
-});
+  base: 'https://froidd.github.io/', // 👈 para repos tipo usuario.github.io
+})
