@@ -1,441 +1,444 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronDown, Github, Linkedin, Mail, ExternalLink, Play, Calendar, Award, Code, Zap, Star, Gamepad2, Gem, Gavel, BinaryIcon } from 'lucide-react';
-import { FaBeer } from 'react-icons/fa';
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Text3D, OrbitControls } from '@react-three/drei'
-import { useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
+import { Github, Mail, ExternalLink, Play, Code, Zap, Star, Gamepad2, Gem, Gavel, BinaryIcon, Layers, Settings, Cpu, Eye, ChevronDown } from 'lucide-react';
 import screenshot from './assets/ScreenShot002.png';
 
+// ═══════════════════════════════════════════════════════════
+//  🎨 PALETA — Edita aquí para cambiar todos los colores
+// ═══════════════════════════════════════════════════════════
+const PALETTE = {
+  accent:        '#4A8FE7',
+  accentDark:    '#2563EB',
+  secondary:     '#7C5CBF',
+  secondaryDark: '#6D28D9',
+  bg:            '#0F1117',
+  surface:       '#1A1D27',
+  surfaceHover:  '#22263A',
+  border:        '#2A2D3E',
+  borderAccent:  '#3A4A6A',
+  textPrimary:   '#E8EAF0',
+  textSecondary: '#8892A4',
+  textMuted:     '#4E5668',
+  success:       '#3DAA6E',
+  warning:       '#E5A832',
+  danger:        '#E05252',
+  tagBg:         '#1E2235',
+  tagText:       '#7EB3F5',
+  tagBorder:     '#2E3A55',
+};
+// ═══════════════════════════════════════════════════════════
+
 const UnrealEnginePortfolio = () => {
+  const [scrollY, setScrollY] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [activeProject, setActiveProject] = useState(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setIsLoaded(true);
-    
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-// niveles posibles
-const niveles = ["Principiante", "Básico", "Intermedio", "Intermedio-Avanzado","Avanzado", "Experto"];
-const nivelActual = "Intermedio-Avanzado"; // este vendría de props o estado dinámico
+  const niveles = ["Principiante", "Básico", "Intermedio", "Intermedio-Avanzado", "Avanzado", "Experto"];
+  const nivelActual = "Intermedio-Avanzado";
+  const progreso = ((niveles.indexOf(nivelActual) + 1) / niveles.length) * 100;
 
-// calcular progreso en base al índice
-const progreso = ((niveles.indexOf(nivelActual) + 1) / niveles.length) * 100;
-
-const projects = [
-  {
-    id: 1,
-    title: "Half Sword Quality Of Life",
-    category: "Miscellaneous",
-    description: "En este proyecto usé ingeniería inversa para crear un mod de Half Sword, el cual mejoraba el juego de diferentes formas, con cámara lenta, spawner de ítems, creador de presets para guardar tus armas y/o armaduras. También añade una mejora gráfica usando postprocesado, utilizando un DLL que se inyecta y puede hacer cambios en el juego, empleando las funciones de Unreal para crear el mod.",
-    image: screenshot,
-    tech: ["Unreal Engine 5", "C++", "DLL Injection", "Reverse Engineering", "Post-Processing"],
-    year: "2025",
-    githubUrl: "https://github.com/Froidd/Half-Sword-Quality-Of-Life-Mod",
-    demoUrl: "https://www.nexusmods.com/halfsword/mods/18",
-    demoButtonText: "Nexus",
-    demoButtonColor: "from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
-  }
-];
+  // ── Proyectos ────────────────────────────────────────────
+  // Cómo añadir botones a una card:
+  //   Agrega objetos al array "buttons" del proyecto.
+  //   Cada botón: { label, url, icon (componente lucide), style }
+  //   style: 'primary' | 'secondary' | 'ghost' | 'nexus' | 'custom'
+  //   Para 'custom' añade también: customBg, customHover, customText
+  const projects = [
+    {
+      id: 1,
+      title: "Half Sword Quality Of Life",
+      category: "Modding / Miscelánea",
+      description: "Usé ingeniería inversa para crear un mod de Half Sword que mejora la experiencia con cámara lenta, spawner de ítems, presets de armas y mejoras gráficas. Se inyecta un DLL para acceder a las funciones internas de Unreal Engine.",
+      image: screenshot,
+      tech: ["Unreal Engine 5", "C++", "Ingeniería Inversa"],
+      year: "2025",
+      buttons: [
+        { label: "Ver Código",  url: "https://github.com/Froidd/Half-Sword-Quality-Of-Life-Mod", icon: Github,      style: "ghost"   },
+        { label: "Nexus Mods",  url: "https://www.nexusmods.com/halfsword/mods/18",               icon: ExternalLink, style: "nexus"   },
+      ],
+    },
+    // ── AÑADE PROYECTOS AQUÍ ─────────────────────────────
+    // {
+    //   id: 2,
+    //   title: "Nombre del Proyecto",
+    //   category: "Categoría",
+    //   description: "Descripción del proyecto...",
+    //   image: null,
+    //   tech: ["UE5", "C++"],
+    //   year: "2026",
+    //   buttons: [
+    //     { label: "GitHub", url: "https://github.com/...", icon: Github, style: "ghost" },
+    //     { label: "Demo",   url: "https://...",            icon: Play,   style: "primary" },
+    //   ],
+    // },
+  ];
 
   const skills = [
     "Unreal Engine 5", "Scripting Visual con Blueprints", "Iluminación y Renderizado",
-    "Creación de Materiales", "Optimización de Juegos",
-    "Realidad Virtual", "Post-Procesado"
+    "Creación de Materiales", "Optimización de Juegos", "Realidad Virtual",
   ];
 
   const achievements = [
-    { icon: Code, title: "4+ Años", subtitle: "Experiencia con UE" },
-    { icon: Zap, title: "Optimización", subtitle: "Experto en rendimiento" },
-    { icon: BinaryIcon, title: "Modding", subtitle: "Ingeniería inversa" },
-    { icon: Star, title: "Innovación", subtitle: "Soluciones creativas" },
-    { icon: Gavel, title: "Física", subtitle: "Simulación realista" },
-    { icon: Gamepad2, title: "Multijugador", subtitle: "Experiencia entre jugadores" }
+    { icon: Code,       title: "5+ Años",      subtitle: "Experiencia con UE" },
+    { icon: Zap,        title: "Optimización",  subtitle: "Experto en rendimiento" },
+    { icon: BinaryIcon, title: "Modding",       subtitle: "Ingeniería inversa" },
+    { icon: Star,       title: "Innovación",    subtitle: "Soluciones creativas" },
+    { icon: Gavel,      title: "Física",        subtitle: "Simulación realista" },
+    { icon: Gamepad2,   title: "Multijugador",  subtitle: "Experiencia en red" },
   ];
 
+  const buttonStyles = {
+    primary:   { bg: PALETTE.accent,     hover: PALETTE.accentDark,    text: '#fff', border: PALETTE.accent     },
+    secondary: { bg: PALETTE.secondary,  hover: PALETTE.secondaryDark, text: '#fff', border: PALETTE.secondary  },
+    ghost:     { bg: 'transparent',      hover: PALETTE.surfaceHover,  text: PALETTE.textSecondary, border: PALETTE.border },
+    nexus:     { bg: '#D97706',          hover: '#B45309',             text: '#fff', border: '#D97706'           },
+  };
+
+  const CardButton = ({ btn }) => {
+    const [hovered, setHovered] = useState(false);
+    const s = btn.style === 'custom'
+      ? { bg: btn.customBg, hover: btn.customHover, text: btn.customText, border: btn.customBg }
+      : (buttonStyles[btn.style] || buttonStyles.primary);
+    const Icon = btn.icon;
+    return (
+      <a href={btn.url} target="_blank" rel="noopener noreferrer"
+        onClick={e => e.stopPropagation()}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          gap: '6px', padding: '9px 14px', borderRadius: '7px',
+          fontSize: '12px', fontWeight: 600, cursor: 'pointer',
+          border: `1px solid ${s.border}`,
+          backgroundColor: hovered ? s.hover : s.bg,
+          color: s.text,
+          transition: 'background-color 0.18s, transform 0.14s',
+          transform: hovered ? 'translateY(-1px)' : 'none',
+          textDecoration: 'none', whiteSpace: 'nowrap',
+          fontFamily: "'IBM Plex Mono', monospace",
+        }}
+      >
+        {Icon && <Icon size={13} />}
+        {btn.label}
+      </a>
+    );
+  };
+
+  const NavBtn = ({ children, target }) => {
+    const [h, setH] = useState(false);
+    return (
+      <button onClick={() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' })}
+        onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}
+        style={{
+          background: 'none', border: 'none', fontFamily: 'inherit',
+          fontSize: '13px', cursor: 'pointer', padding: '4px 0',
+          color: h ? PALETTE.textPrimary : PALETTE.textSecondary,
+          transition: 'color 0.2s',
+        }}>
+        {children}
+      </button>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white overflow-x-hidden relative">
-      {/* Cursor follower */}
-
-      {/* Animated background grid */}
-      <div className="fixed inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `
-            radial-gradient(circle at 25% 25%, #3b82f6 1px, transparent 1px),
-            radial-gradient(circle at 75% 75%, #8b5cf6 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px',
-          animation: 'grid-move 20s linear infinite'
-        }}></div>
-      </div>
-
-      <style jsx>{`
-        @keyframes grid-move {
-          0% { transform: translate(0, 0); }
-          100% { transform: translate(50px, 50px); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        @keyframes glow-pulse {
-          0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
-          50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8), 0 0 60px rgba(139, 92, 246, 0.4); }
-        }
-        .float-animation {
-          animation: float 6s ease-in-out infinite;
-        }
-        .glow-pulse {
-          animation: glow-pulse 2s ease-in-out infinite;
+    <div style={{ minHeight: '100vh', backgroundColor: PALETTE.bg, color: PALETTE.textPrimary, overflowX: 'hidden', fontFamily: "'IBM Plex Mono','Fira Code','Courier New',monospace" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+        *{box-sizing:border-box;margin:0;padding:0;}
+        body{background-color:${PALETTE.bg};}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+        @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+        .fade-up{animation:fadeUp .65s cubic-bezier(.16,1,.3,1) both;}
+        .blink{animation:blink 1s step-end infinite;}
+        .spin-slow{animation:spin 18s linear infinite;}
+        ::-webkit-scrollbar{width:5px}
+        ::-webkit-scrollbar-track{background:${PALETTE.bg}}
+        ::-webkit-scrollbar-thumb{background:${PALETTE.border};border-radius:3px}
+        .sdiv{width:36px;height:3px;background:${PALETTE.accent};border-radius:2px;margin-bottom:22px;}
+        .card{background:${PALETTE.surface};border:1px solid ${PALETTE.border};border-radius:13px;overflow:hidden;transition:transform .22s,border-color .22s,background-color .22s;}
+        .card:hover{transform:translateY(-4px);border-color:${PALETTE.borderAccent};background:${PALETTE.surfaceHover};}
+        a{color:inherit;}
+        @media(max-width:768px){
+          .grid-2{grid-template-columns:1fr!important;}
+          .nav-links{display:none!important;}
+          .hero-title{font-size:56px!important;}
+          .ach-grid{flex-direction:column;align-items:stretch;}
+          .ach-item{border-right:none!important;border-bottom:1px solid ${PALETTE.border};}
         }
       `}</style>
 
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-gray-900"></div>
-        
-        {/* Enhanced animated particles */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-3 h-3 bg-blue-400 rounded-full animate-pulse glow-pulse"></div>
-          <div className="absolute top-40 right-32 w-2 h-2 bg-purple-400 rounded-full animate-ping"></div>
-          <div className="absolute bottom-32 left-1/4 w-4 h-4 bg-cyan-400 rounded-full animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-2 h-2 bg-pink-400 rounded-full animate-ping"></div>
-          <div className="absolute top-60 left-60 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
-          <div className="absolute top-80 right-80 w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
-          
-          {/* Floating geometric shapes */}
-          <div className="absolute top-32 left-1/3 w-8 h-8 border border-blue-400/30 rotate-45 float-animation"></div>
-          <div className="absolute bottom-40 right-1/3 w-6 h-6 border border-purple-400/30 rounded-full float-animation" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-20 w-10 h-1 bg-gradient-to-r from-cyan-400 to-transparent float-animation" style={{ animationDelay: '4s' }}></div>
+      {/* NAV */}
+      <nav style={{
+        position:'fixed',top:0,left:0,right:0,zIndex:100,
+        backgroundColor: scrollY > 40 ? PALETTE.surface : 'transparent',
+        borderBottom: scrollY > 40 ? `1px solid ${PALETTE.border}` : '1px solid transparent',
+        transition:'background-color .3s,border-color .3s',
+        padding:'0 40px',height:'54px',
+        display:'flex',alignItems:'center',justifyContent:'space-between',
+      }}>
+        <span style={{fontWeight:700,color:PALETTE.accent,fontSize:'14px',letterSpacing:'.03em'}}>{'<Froid />'}</span>
+        <div className="nav-links" style={{display:'flex',gap:'28px'}}>
+          <NavBtn target="hero">Inicio</NavBtn>
+          <NavBtn target="about">Sobre Mí</NavBtn>
+          <NavBtn target="proyectos">Proyectos</NavBtn>
+          <NavBtn target="contacto">Contacto</NavBtn>
         </div>
-        
-        <div className={`text-center z-10 transition-all duration-2000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="relative mb-8">
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent relative">
-              Froid
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-cyan-600/10 blur-2xl -z-10"></div>
-            </h1>
-            <div className="absolute -top-4 -left-4 w-2 h-2 bg-blue-400 rounded-full animate-ping"></div>
-            <div className="absolute -top-2 -right-6 w-1 h-1 bg-purple-400 rounded-full animate-pulse"></div>
-          </div>
-          
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Desarrollador de <span className="text-blue-400 font-semibold">Unreal Engine</span>
-          </p>
-          
-          {/* Enhanced stats section */}
-          <div className="flex justify-center flex-wrap gap-8 mb-12">
-            {achievements.map((achievement, index) => {
-              const Icon = achievement.icon;
-              return (
-                <div key={index} className="flex items-center space-x-3 bg-gray-800/50 backdrop-blur-sm rounded-lg px-4 py-2 border border-gray-700/50 hover:border-blue-400/50 transition-all duration-300 hover:scale-105">
-                  <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
-                    <Icon className="w-4 h-4" />
-                  </div>
-                  <div className="text-left">
-                    <div className="text-sm font-bold text-blue-400">{achievement.title}</div>
-                    <div className="text-xs text-gray-400">{achievement.subtitle}</div>
-                  </div>
-                </div>
-              );
-            })}
+      </nav>
+
+      {/* HERO */}
+      <section id="hero" style={{
+        minHeight:'100vh',display:'flex',flexDirection:'column',
+        alignItems:'center',justifyContent:'center',
+        padding:'90px 32px 60px',position:'relative',overflow:'hidden',
+      }}>
+        <div style={{
+          position:'absolute',inset:0,pointerEvents:'none',
+          backgroundImage:`linear-gradient(${PALETTE.border}30 1px,transparent 1px),linear-gradient(90deg,${PALETTE.border}30 1px,transparent 1px)`,
+          backgroundSize:'48px 48px',opacity:.5,
+        }}/>
+        <div style={{position:'absolute',top:'16%',right:'10%',width:'260px',height:'260px',borderRadius:'50%',backgroundColor:`${PALETTE.accent}06`,border:`1px solid ${PALETTE.accent}12`,pointerEvents:'none'}}/>
+        <div style={{position:'absolute',bottom:'18%',left:'6%',width:'140px',height:'140px',borderRadius:'50%',backgroundColor:`${PALETTE.secondary}07`,border:`1px solid ${PALETTE.secondary}14`,pointerEvents:'none'}}/>
+
+        <div className="fade-up" style={{textAlign:'center',position:'relative',zIndex:2,maxWidth:'720px'}}>
+          <div style={{
+            display:'inline-flex',alignItems:'center',gap:'8px',
+            backgroundColor:PALETTE.surface,border:`1px solid ${PALETTE.border}`,
+            borderRadius:'20px',padding:'5px 14px',marginBottom:'36px',
+            fontSize:'12px',color:PALETTE.textSecondary,
+          }}>
+            <span style={{width:'7px',height:'7px',borderRadius:'50%',backgroundColor:PALETTE.success,display:'inline-block',animation:'pulse 2s infinite'}}/>
+            Disponible para proyectos — 2026
           </div>
 
-          {/* CTA Button */}
-          <div className="relative">
-            <button 
-              onClick={() => document.getElementById("proyectos").scrollIntoView({ behavior: "smooth" })}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 glow-pulse">
-              Explorar Proyectos
-            </button>
+          <h1 className="hero-title" style={{
+            fontSize:'88px',fontWeight:700,letterSpacing:'-.04em',lineHeight:1.0,
+            color:PALETTE.textPrimary,marginBottom:'14px',
+            fontFamily:"'IBM Plex Sans',sans-serif",
+          }}>Froid</h1>
+
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'8px',marginBottom:'24px'}}>
+            <span style={{color:PALETTE.accent,fontSize:'17px',fontWeight:500}}>Desarrollador Unreal Engine</span>
+            <span className="blink" style={{color:PALETTE.accent,fontSize:'20px',lineHeight:1}}>_</span>
           </div>
-        
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <div className="p-2 bg-gray-800/50 backdrop-blur-sm rounded-full border border-gray-700/50">
-              <ChevronDown className="w-6 h-6 text-gray-400" />
-            </div>
+
+          <p style={{color:PALETTE.textSecondary,fontSize:'15px',lineHeight:1.75,maxWidth:'500px',margin:'0 auto 40px',fontFamily:"'IBM Plex Sans',sans-serif"}}>
+            Especializado en Blueprints, C++, optimización de rendimiento y modding con ingeniería inversa. Más de 5 años construyendo en Unreal Engine.
+          </p>
+
+          <div style={{display:'flex',justifyContent:'center',flexWrap:'wrap',gap:'8px',marginBottom:'40px'}}>
+            {['Blueprint Systems','C++','UE 5.4+','VR','Modding'].map(tag=>(
+              <span key={tag} style={{backgroundColor:PALETTE.tagBg,color:PALETTE.tagText,border:`1px solid ${PALETTE.tagBorder}`,borderRadius:'5px',padding:'4px 11px',fontSize:'11px',fontWeight:500,letterSpacing:'.04em'}}>{tag}</span>
+            ))}
           </div>
+
+          <div style={{display:'flex',gap:'12px',justifyContent:'center',flexWrap:'wrap'}}>
+            {[
+              { label:'Ver Proyectos', action: ()=>document.getElementById('proyectos')?.scrollIntoView({behavior:'smooth'}), primary:true },
+            ].map((b,i)=>{
+              const [h,setH]=useState(false);
+              return b.href
+                ? <a key={i} href={b.href} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{display:'inline-flex',alignItems:'center',gap:'8px',backgroundColor:h?PALETTE.accentDark:PALETTE.accent,color:'#fff',border:`1px solid ${PALETTE.accent}`,borderRadius:'7px',padding:'11px 24px',fontSize:'13px',fontWeight:600,textDecoration:'none',fontFamily:'inherit',transition:'background-color .2s,transform .14s',transform:h?'translateY(-1px)':'none'}}>{b.label}</a>
+                : <button key={i} onClick={b.action} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{backgroundColor:h?PALETTE.accentDark:PALETTE.accent,color:'#fff',border:`1px solid ${PALETTE.accent}`,borderRadius:'7px',padding:'11px 24px',fontSize:'13px',fontWeight:600,cursor:'pointer',fontFamily:'inherit',transition:'background-color .2s,transform .14s',transform:h?'translateY(-1px)':'none'}}>{b.label}</button>
+            })}
+            {(()=>{const [h,setH]=useState(false);return(
+              <a href="mailto:fazeares6567@gmail.com" onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{display:'inline-flex',alignItems:'center',gap:'8px',backgroundColor:'transparent',color:PALETTE.textPrimary,border:`1px solid ${h?PALETTE.borderAccent:PALETTE.border}`,borderRadius:'7px',padding:'11px 24px',fontSize:'13px',fontWeight:600,textDecoration:'none',fontFamily:'inherit',transition:'border-color .2s,transform .14s',transform:h?'translateY(-1px)':'none'}}>
+                Contactar
+              </a>
+            );})()}
+          </div>
+        </div>
+
+        <div style={{position:'absolute',bottom:'28px',left:'50%',transform:'translateX(-50%)',display:'flex',flexDirection:'column',alignItems:'center',gap:'5px',opacity:.3,animation:'pulse 2.5s infinite'}}>
+          <span style={{fontSize:'10px',color:PALETTE.textMuted,letterSpacing:'.1em'}}>SCROLL</span>
+          <ChevronDown size={15} color={PALETTE.textMuted}/>
         </div>
       </section>
 
-      {/* Decorative section divider */}
-      <div className="relative py-8">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-full max-w-6xl h-px bg-gradient-to-r from-transparent via-blue-400/50 to-transparent"></div>
-        </div>
-        <div className="relative flex justify-center">
-          <div className="bg-gray-900 px-6 py-2 rounded-full border border-blue-400/30">
-            <Star className="w-6 h-6 text-blue-400" />
-          </div>
-        </div>
+      {/* ACHIEVEMENTS BAR */}
+      <div className="ach-grid" style={{borderTop:`1px solid ${PALETTE.border}`,borderBottom:`1px solid ${PALETTE.border}`,backgroundColor:PALETTE.surface,padding:'0 40px',display:'flex',justifyContent:'center',flexWrap:'wrap',overflowX:'auto'}}>
+        {achievements.map((a,i)=>{
+          const Icon=a.icon;
+          return(
+            <div key={i} className="ach-item" style={{display:'flex',alignItems:'center',gap:'12px',padding:'18px 28px',borderRight:i<achievements.length-1?`1px solid ${PALETTE.border}`:'none',minWidth:'150px'}}>
+              <div style={{width:'32px',height:'32px',backgroundColor:`${PALETTE.accent}16`,border:`1px solid ${PALETTE.accent}28`,borderRadius:'7px',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                <Icon size={15} color={PALETTE.accent}/>
+              </div>
+              <div>
+                <div style={{fontSize:'13px',fontWeight:700,color:PALETTE.textPrimary}}>{a.title}</div>
+                <div style={{fontSize:'11px',color:PALETTE.textMuted,fontFamily:"'IBM Plex Sans',sans-serif"}}>{a.subtitle}</div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Sección Acerca de */}
-      <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto relative">
-        {/* Background decoration */}
-          <div className="absolute top-10 right-10 w-20 h-20 border border-purple-400/20 rounded-full float-animation"></div>
-          <div className="absolute bottom-10 left-10 w-16 h-16 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-lg rotate-12 float-animation" style={{ animationDelay: '3s' }}></div>
+      {/* ABOUT */}
+      <section id="about" style={{padding:'96px 40px',maxWidth:'1160px',margin:'0 auto'}}>
+        <div className="grid-2" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'72px',alignItems:'start'}}>
+          <div>
+            <div className="sdiv"/>
+            <h2 style={{fontSize:'34px',fontWeight:700,marginBottom:'22px',color:PALETTE.textPrimary,fontFamily:"'IBM Plex Sans',sans-serif",letterSpacing:'-.02em'}}>Sobre Mí</h2>
+            <p style={{color:PALETTE.textSecondary,fontSize:'14px',lineHeight:1.8,marginBottom:'18px',fontFamily:"'IBM Plex Sans',sans-serif"}}>
+              Desde <strong style={{color:PALETTE.textPrimary}}>2021</strong> he estado construyendo dentro de <strong style={{color:PALETTE.accent}}>Unreal Engine</strong>, acumulando más de <strong style={{color:PALETTE.textPrimary}}>5 años</strong> de experiencia en el desarrollo de experiencias interactivas y entornos virtuales.
+            </p>
+            <p style={{color:PALETTE.textSecondary,fontSize:'14px',lineHeight:1.8,marginBottom:'32px',fontFamily:"'IBM Plex Sans',sans-serif"}}>
+              Me especializo en <strong style={{color:PALETTE.accent}}>Blueprints</strong>, <strong style={{color:PALETTE.secondary}}>animaciones</strong> y <strong style={{color:PALETTE.success}}>optimización de rendimiento</strong>, con experiencia adicional en modding mediante ingeniería inversa.
+            </p>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 relative">
-              <div className="absolute -left-8 top-0 w-1 h-32 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full"></div>
-              <h2 className="text-4xl font-bold mb-6 relative">
-                Sobre Mí
-                <div className="absolute -bottom-2 left-0 w-16 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
-              </h2>
-              <p className="text-lg text-gray-300 leading-relaxed relative z-10">
-                Apasionado por <span className="text-blue-400 font-semibold">Desde 2021</span> he estado fascinado por <span className="text-green-400 font-semibold">Unreal Engine</span> y he invertido más de <span className="text-blue-400 font-semibold">4 años</span> en el desarrollo de experiencias interactivas y entornos virtuales envolventes.
-              </p>
-              <p className="text-lg text-gray-300 leading-relaxed relative z-10">
-                Mi experiencia abarca el <span className="text-cyan-400 font-semibold">diseño de niveles</span>, la <span className="text-blue-400 font-semibold">secuenciación de blueprints</span>, la <span className="text-purple-400 font-semibold">iluminación</span> y
-                las <span className="text-green-400 font-semibold">técnicas de optimización</span> que dan vida a los mundos virtuales.
-              </p>
-              
-              {/* Additional info cards */}
-              <div className="flex justify-center mt-8">
-                <div className="bg-gradient-to-r from-blue-600/10 to-transparent p-4 rounded-lg border border-blue-400/20">
-            <div className="text-2xl font-bold text-blue-400">500+</div>
-            <div className="text-sm text-gray-400">Horas de desarrollo</div>
-                </div>
-              </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'12px',marginBottom:'32px'}}>
+              {[
+                {icon:Cpu,    label:'Lumen GI', desc:'Iluminación global dinámica', color:PALETTE.accent},
+                {icon:Gem,    label:'Nanite',   desc:'Geometría virtualizada',      color:PALETTE.secondary},
+                {icon:Eye,    label:'Chaos',    desc:'Física destructible',          color:PALETTE.success},
+                {icon:Layers, label:'Niagara',  desc:'Partículas avanzadas',         color:PALETTE.warning},
+              ].map(({icon:Icon,label,desc,color})=>{
+                const [h,setH]=useState(false);
+                return(
+                  <div key={label} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+                    style={{backgroundColor:PALETTE.surface,border:`1px solid ${h?color+'50':PALETTE.border}`,borderRadius:'9px',padding:'14px',cursor:'default',transition:'border-color .2s'}}>
+                    <Icon size={17} color={color} style={{marginBottom:'7px'}}/>
+                    <div style={{fontSize:'12px',fontWeight:600,color:PALETTE.textPrimary,marginBottom:'2px'}}>{label}</div>
+                    <div style={{fontSize:'11px',color:PALETTE.textMuted,fontFamily:"'IBM Plex Sans',sans-serif"}}>{desc}</div>
+                  </div>
+                );
+              })}
             </div>
-            
-            <div className="relative">
-              {/* Enhanced skills card with more decoration */}
-            <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl p-1 transform rotate-3 hover:rotate-0 transition-transform duration-500 relative">
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full animate-pulse"></div>
-              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full animate-ping"></div>
-              
-              <div className="bg-gray-900 rounded-xl p-6 transform -rotate-3 relative">
-                <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                <h3 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Habilidades Técnicas
-                </h3>
-                <div className="grid grid-cols-1 gap-3">
-                  {skills.map((skill, index) => (
-                    <div key={index} className="text-sm bg-gray-800/50 backdrop-blur-sm rounded-lg px-4 py-3 text-center hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-purple-600/20 transition-all duration-300 border border-gray-700/50 hover:border-blue-400/30 hover:scale-105 group">
-                      <span className="group-hover:text-blue-300 transition-colors duration-300">{skill}</span>
+
+            <div style={{display:'inline-flex',flexDirection:'column',backgroundColor:PALETTE.surface,border:`1px solid ${PALETTE.border}`,borderRadius:'9px',padding:'16px 24px'}}>
+              <span style={{fontSize:'30px',fontWeight:700,color:PALETTE.accent,lineHeight:1}}>1 000+</span>
+              <span style={{fontSize:'11px',color:PALETTE.textMuted,marginTop:'4px',fontFamily:"'IBM Plex Sans',sans-serif"}}>Horas de desarrollo activo</span>
+            </div>
+          </div>
+
+          {/* Skills panel */}
+          <div style={{backgroundColor:PALETTE.surface,border:`1px solid ${PALETTE.border}`,borderRadius:'13px',overflow:'hidden'}}>
+            <div style={{backgroundColor:PALETTE.bg,borderBottom:`1px solid ${PALETTE.border}`,padding:'9px 14px',display:'flex',alignItems:'center',gap:'8px',fontSize:'12px',color:PALETTE.textMuted}}>
+              <Settings size={12} color={PALETTE.accent} className="spin-slow"/>
+              <span style={{color:PALETTE.accent}}>DT_SkillsTree</span>
+              <span style={{marginLeft:'auto',color:PALETTE.success,fontSize:'11px'}}>● compiled</span>
+            </div>
+            <div style={{padding:'22px'}}>
+              <h3 style={{fontSize:'13px',fontWeight:600,color:PALETTE.textPrimary,marginBottom:'16px',letterSpacing:'.05em',textTransform:'uppercase'}}>Habilidades Técnicas</h3>
+              <div style={{display:'flex',flexDirection:'column',gap:'7px',marginBottom:'26px'}}>
+                {skills.map((s,i)=>{
+                  const [h,setH]=useState(false);
+                  return(
+                    <div key={i} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+                      style={{backgroundColor:PALETTE.bg,border:`1px solid ${h?PALETTE.accent+'45':PALETTE.border}`,borderRadius:'7px',padding:'9px 13px',fontSize:'13px',color:h?PALETTE.textPrimary:PALETTE.textSecondary,cursor:'default',transition:'border-color .18s,color .18s',fontFamily:"'IBM Plex Sans',sans-serif",display:'flex',alignItems:'center',gap:'9px'}}>
+                      <span style={{width:'5px',height:'5px',borderRadius:'50%',backgroundColor:PALETTE.accent,opacity:.6,flexShrink:0}}/>
+                      {s}
                     </div>
-                  ))}
+                  );
+                })}
+              </div>
+              <div>
+                <div style={{display:'flex',justifyContent:'space-between',fontSize:'11px',marginBottom:'7px',color:PALETTE.textMuted,letterSpacing:'.06em'}}>
+                  <span>NIVEL ACTUAL</span>
+                  <span style={{color:PALETTE.accent}}>{nivelActual}</span>
                 </div>
-                
-                {/* Progress indicators */}
-                <div className="mt-6 space-y-3">
-                  <div className="flex items-center justify-between text-xs text-gray-400">
-                    <span>Nivel de Experiencia</span>
-                    <span>Experto en Unreal</span>
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
-                    <div
-                      className="bg-gradient-to-r from-blue-400 to-purple-400 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${progreso}%` }}
-                    ></div>
-                  </div>
+                <div style={{width:'100%',height:'5px',backgroundColor:PALETTE.bg,borderRadius:'3px',overflow:'hidden',border:`1px solid ${PALETTE.border}`}}>
+                  <div style={{width:`${progreso}%`,height:'100%',backgroundColor:PALETTE.accent,borderRadius:'3px'}}/>
                 </div>
+                <div style={{textAlign:'right',fontSize:'10px',color:PALETTE.textMuted,marginTop:'5px'}}>{Math.round(progreso)}% de Expert</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Sección de Proyectos */}
-      <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto relative">
-        {/* Background decorations */}
-        <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-600/5 to-purple-600/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-br from-purple-600/5 to-cyan-600/5 rounded-full blur-3xl"></div>
-
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-            <section id="proyectos" className="py-20 px-4 md:px-8 max-w-7xl mx-auto relative"></section>
-            Mis Proyectos Destacados
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto rounded-full mb-6"></div>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Descubre mis trabajos más recientes en desarrollo de juegos y modificaciones
-          </p>
+      {/* PROYECTOS */}
+      <section id="proyectos" style={{padding:'96px 40px',maxWidth:'1160px',margin:'0 auto',borderTop:`1px solid ${PALETTE.border}`}}>
+        <div className="sdiv"/>
+        <div style={{marginBottom:'52px'}}>
+          <h2 style={{fontSize:'34px',fontWeight:700,color:PALETTE.textPrimary,fontFamily:"'IBM Plex Sans',sans-serif",letterSpacing:'-.02em',marginBottom:'10px'}}>Proyectos Destacados</h2>
+          <p style={{color:PALETTE.textSecondary,fontSize:'14px',fontFamily:"'IBM Plex Sans',sans-serif",maxWidth:'440px'}}>Trabajos publicados y proyectos personales desarrollados con Unreal Engine 5.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-20">
-          {projects.map((project, index) => (
-            <div 
-              key={project.id}
-              className={`group cursor-pointer transition-all duration-500 ${
-                isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-              onMouseEnter={() => setActiveProject(project.id)}
-              onMouseLeave={() => setActiveProject(null)}
-            >
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm transform group-hover:scale-105 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-blue-500/25 border border-gray-700/50 group-hover:border-blue-400/30">
-                {/* Decorative elements */}
-                <div className="absolute top-2 left-2 w-3 h-3 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 animate-pulse"></div>
-                <div className="absolute top-2 right-2 w-2 h-2 bg-cyan-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700 animate-ping"></div>
-
-                <div className="aspect-video relative overflow-hidden">
-                  {project.video ? (
-                    <video
-                      src={project.video}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                    />
-                  ) : (
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                  )}
-                  
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  {/* Bottom action buttons */}
-                  {(project.githubUrl || project.demoUrl) && (
-                    <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                      <div className="flex space-x-3">
-                        {project.githubUrl && (
-                          <a 
-                            href={project.githubUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className={`${project.demoUrl ? 'flex-1' : 'w-full'} bg-black/70 backdrop-blur-sm border border-gray-600/50 hover:border-gray-400 rounded-lg px-4 py-3 text-sm font-medium hover:bg-gray-700/80 transition-all duration-300 flex items-center justify-center space-x-2`}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Github className="w-4 h-4" />
-                            <span>Ver Código</span>
-                          </a>
-                        )}
-                        {project.demoUrl && (
-                          <a 
-                            href={project.demoUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className={`${project.githubUrl ? 'flex-1' : 'w-full'} bg-gradient-to-r ${project.demoButtonColor || 'from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'} rounded-lg px-4 py-3 text-sm font-medium transition-all duration-300 flex items-center justify-center space-x-2 hover:scale-105 border border-blue-400/30`}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Play className="w-4 h-4" />
-                            <span>{project.demoButtonText || "Demo en Vivo"}</span>
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  )}
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))',gap:'22px'}}>
+          {projects.map(project=>(
+            <div key={project.id} className="card">
+              <div style={{position:'relative',aspectRatio:'16/9',overflow:'hidden'}}>
+                {project.image
+                  ? <img src={project.image} alt={project.title} style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}/>
+                  : <div style={{width:'100%',height:'100%',backgroundColor:PALETTE.bg,display:'flex',alignItems:'center',justifyContent:'center'}}><Gamepad2 size={36} color={PALETTE.textMuted}/></div>
+                }
+                <div style={{position:'absolute',top:'10px',right:'10px',backgroundColor:PALETTE.bg+'cc',border:`1px solid ${PALETTE.border}`,borderRadius:'5px',padding:'3px 9px',fontSize:'11px',color:PALETTE.textSecondary,backdropFilter:'blur(8px)'}}>
+                  {project.year}
                 </div>
-                
-                <div className="p-6 relative">
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-xl font-bold group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all duration-300">
-                      {project.title}
-                    </h3>
-                    <span className="text-sm text-gray-400 bg-gray-700/50 px-3 py-1 rounded-full border border-gray-600/50">
-                      {project.year}
-                    </span>
-                  </div>
-                  
-                  <p className="text-sm text-purple-400 mb-4 font-medium bg-purple-600/10 px-3 py-1 rounded-full inline-block border border-purple-400/20">
-                    {project.category}
-                  </p>
-                  
-                  <p className="text-gray-300 text-sm mb-6 leading-relaxed">
-                    {project.description}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech, techIndex) => (
-                      <span 
-                        key={techIndex}
-                        className="text-xs bg-gradient-to-r from-blue-600/20 to-purple-600/20 text-blue-300 px-3 py-1 rounded-full border border-blue-600/30 hover:border-blue-400/50 hover:bg-gradient-to-r hover:from-blue-600/30 hover:to-purple-600/30 transition-all duration-300 hover:scale-105"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+              </div>
+              <div style={{padding:'20px'}}>
+                <div style={{marginBottom:'8px'}}>
+                  <span style={{fontSize:'11px',color:PALETTE.secondary,textTransform:'uppercase',letterSpacing:'.08em',fontWeight:600}}>{project.category}</span>
                 </div>
+                <h3 style={{fontSize:'17px',fontWeight:700,color:PALETTE.textPrimary,marginBottom:'10px',fontFamily:"'IBM Plex Sans',sans-serif",lineHeight:1.3}}>{project.title}</h3>
+                <p style={{fontSize:'13px',color:PALETTE.textSecondary,lineHeight:1.7,marginBottom:'16px',fontFamily:"'IBM Plex Sans',sans-serif"}}>{project.description}</p>
+                <div style={{display:'flex',flexWrap:'wrap',gap:'6px',marginBottom:'18px'}}>
+                  {project.tech.map((t,i)=>(
+                    <span key={i} style={{backgroundColor:PALETTE.tagBg,color:PALETTE.tagText,border:`1px solid ${PALETTE.tagBorder}`,borderRadius:'4px',padding:'3px 8px',fontSize:'11px',fontWeight:500}}>{t}</span>
+                  ))}
+                </div>
+                {project.buttons?.length > 0 && (
+                  <div style={{display:'flex',gap:'9px',borderTop:`1px solid ${PALETTE.border}`,paddingTop:'16px'}}>
+                    {project.buttons.map((btn,i)=><CardButton key={i} btn={btn}/>)}
+                  </div>
+                )}
               </div>
             </div>
           ))}
-        </div>
-      </section>
 
-      {/* Another decorative divider */}
-      <div className="relative py-8">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-full max-w-6xl h-px bg-gradient-to-r from-transparent via-purple-400/50 to-transparent"></div>
-        </div>
-        <div className="relative flex justify-center">
-          <div className="bg-gray-900 px-6 py-2 rounded-full border border-purple-400/30">
-            <Gamepad2 className="w-6 h-6 text-purple-400" />
-          </div>
-        </div>
-      </div>
-
-      {/* Contact Section */}
-      <section className="py-20 px-4 md:px-8 max-w-4xl mx-auto text-center relative">
-        {/* Background decoration */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-purple-600/5 to-cyan-600/5 rounded-3xl blur-3xl"></div>
-        
-        <div className="relative z-10">
-          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-            ¡Creemos Algo Increíble!
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto rounded-full mb-8"></div>
-          
-          <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-            ¿Tienes una idea para un proyecto? ¡Ponte en contacto conmigo a través de correo electrónico!, Que seguro que me interesará.
-          </p>
-          
-          <div className="flex justify-center space-x-6 mb-12">
-            <a href="mailto:fazeares6567@gmail.com" className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-full hover:shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 group-hover:scale-110 border border-blue-400/30">
-                <Mail className="w-6 h-6" />
-              </div>
-            </a>
-            <a href="https://github.com" className="group relative">
-              <div className="absolute inset-0 bg-gray-800 rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative bg-gray-800 p-4 rounded-full hover:bg-gray-700 hover:shadow-2xl hover:shadow-gray-500/25 transition-all duration-300 group-hover:scale-110 border border-gray-600/50 hover:border-gray-400">
-                <Github className="w-6 h-6" />
-              </div>
-            </a>
-          </div>
-
-          <div className="text-center">
-            <a 
-              href="mailto:fazeares6567@gmail.com" 
-              className="inline-flex items-center space-x-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25 border border-blue-400/30 relative overflow-hidden group"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-              <Mail className="w-5 h-5 relative z-10" />
-              <span className="relative z-10">Ponte en Contacto</span>
-            </a>
+          {/* Placeholder */}
+          <div style={{backgroundColor:PALETTE.surface,border:`2px dashed ${PALETTE.border}`,borderRadius:'13px',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'48px 24px',gap:'11px',opacity:.45}}>
+            <Code size={26} color={PALETTE.textMuted}/>
+            <span style={{fontSize:'13px',color:PALETTE.textMuted,fontFamily:"'IBM Plex Sans',sans-serif"}}>Más proyectos en camino…</span>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-4 border-t border-gray-800/50 relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
-        <div className="max-w-7xl mx-auto text-center relative z-10">
-          <div className="flex justify-center items-center space-x-4 mb-6">
-            <div className="w-8 h-px bg-gradient-to-r from-transparent to-blue-400"></div>
-            <Star className="w-6 h-6 text-blue-400" />
-            <div className="w-8 h-px bg-gradient-to-r from-blue-400 to-transparent"></div>
-          </div>
-          <p className="text-gray-400 mb-4">
-            &copy; 2025 Froid - Desarrollador de Unreal Engine
-          </p>
-          <p className="text-sm text-gray-500">
-            Creando experiencias digitales inmersivas
-          </p>
+      {/* CONTACT */}
+      <section id="contacto" style={{padding:'96px 40px',borderTop:`1px solid ${PALETTE.border}`,maxWidth:'760px',margin:'0 auto'}}>
+        <div className="sdiv"/>
+        <h2 style={{fontSize:'34px',fontWeight:700,color:PALETTE.textPrimary,fontFamily:"'IBM Plex Sans',sans-serif",letterSpacing:'-.02em',marginBottom:'10px'}}>Trabajemos Juntos</h2>
+        <p style={{color:PALETTE.textSecondary,fontSize:'14px',fontFamily:"'IBM Plex Sans',sans-serif",marginBottom:'40px',lineHeight:1.75,maxWidth:'420px'}}>
+          Abierto a colaboraciones, proyectos freelance y posiciones en equipos de desarrollo de juegos.
+        </p>
+        <div style={{display:'flex',gap:'12px',flexWrap:'wrap'}}>
+          {(()=>{const[h,setH]=useState(false);return(
+            <a href="mailto:fazeares6567@gmail.com" onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+              style={{display:'inline-flex',alignItems:'center',gap:'9px',backgroundColor:h?PALETTE.accentDark:PALETTE.accent,color:'#fff',border:`1px solid ${PALETTE.accent}`,borderRadius:'7px',padding:'12px 24px',fontSize:'13px',fontWeight:600,textDecoration:'none',fontFamily:'inherit',transition:'background-color .2s,transform .14s',transform:h?'translateY(-1px)':'none'}}>
+              <Mail size={15}/>Enviar Email
+            </a>
+          );})()}
+          {(()=>{const[h,setH]=useState(false);return(
+            <a href="https://github.com/Froidd" target="_blank" rel="noopener noreferrer" onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+              style={{display:'inline-flex',alignItems:'center',gap:'9px',backgroundColor:'transparent',color:PALETTE.textPrimary,border:`1px solid ${h?PALETTE.borderAccent:PALETTE.border}`,borderRadius:'7px',padding:'12px 24px',fontSize:'13px',fontWeight:600,textDecoration:'none',fontFamily:'inherit',transition:'border-color .2s,transform .14s',transform:h?'translateY(-1px)':'none'}}>
+              <Github size={15}/>GitHub
+            </a>
+          );})()}
         </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{borderTop:`1px solid ${PALETTE.border}`,padding:'28px 40px',maxWidth:'1160px',margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'14px'}}>
+        <div style={{display:'flex',alignItems:'center',gap:'14px'}}>
+          <span style={{fontSize:'13px',fontWeight:700,color:PALETTE.accent}}>{'<Froid />'}</span>
+          <div style={{display:'flex',gap:'7px',alignItems:'center'}}>
+            <span style={{width:'6px',height:'6px',borderRadius:'50%',backgroundColor:PALETTE.success,display:'inline-block'}}/>
+            <span style={{fontSize:'11px',color:PALETTE.textMuted,fontFamily:"'IBM Plex Sans',sans-serif"}}>Build: 2026.1.0 · UE 5.4+</span>
+          </div>
+        </div>
+        <div style={{display:'flex',gap:'5px',alignItems:'center'}}>
+          {[PALETTE.accent,PALETTE.secondary,PALETTE.success,PALETTE.warning].map((c,i)=>(
+            <div key={i} style={{width:'6px',height:'6px',borderRadius:'50%',backgroundColor:c,opacity:.45}}/>
+          ))}
+        </div>
+        <span style={{fontSize:'12px',color:PALETTE.textMuted,fontFamily:"'IBM Plex Sans',sans-serif"}}>© 2026 Froid — Unreal Engine Developer</span>
       </footer>
     </div>
   );
