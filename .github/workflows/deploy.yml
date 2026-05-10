@@ -19,7 +19,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: npm run predeploy
         env:
           VITE_YOUTUBE_API_KEY: ${{ secrets.VITE_YOUTUBE_API_KEY }}
 
