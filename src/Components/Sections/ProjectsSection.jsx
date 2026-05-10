@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, Play, Code, PopcornIcon } from 'lucide-react';
 import { PALETTE, FONTS } from '../../styles/palette';
@@ -7,6 +7,15 @@ import ProjectCard from '../UI/ProjectCard';
 import { viewportOnce } from '../../styles/animations';
 import screenshot from '../../assets/ScreenShot002.png';
 import screenshot2 from '../../assets/screenshot2.jpg';
+
+const YOUTUBE_VIDEO_ID = 'JwEtWKo_RZU';
+const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
+
+function formatViews(n) {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace('.0', '') + 'M';
+  if (n >= 1_000)     return (n / 1_000).toFixed(1).replace('.0', '') + 'K';
+  return n.toString();
+}
 
 const PROJECTS = [
   {
@@ -32,8 +41,13 @@ const PROJECTS = [
     image: screenshot2,
     tech: ['Unreal Engine 5', 'Vulkan'],
     year: '2026',
-    buttons: [
-      { label: '! Ver Video !', url: 'https://www.youtube.com/watch?v=JwEtWKo_RZU', icon: PopcornIcon, style: 'youtube' },
+    buttons: (views) => [
+      {
+        label: views ? `! Ver Video · ${formatViews(views)} 👁 !` : '! Ver Video !',
+        url: `https://www.youtube.com/watch?v=${YOUTUBE_VIDEO_ID}`,
+        icon: PopcornIcon,
+        style: 'youtube',
+      },
       { label: '! Jugar !', url: 'https://rxfroi.itch.io/randomlife-reborn', icon: Play, style: 'itchio' },
     ],
   },
@@ -48,48 +62,71 @@ const cardVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
 };
 
-const ProjectsSection = () => (
-  <section id="proyectos" style={{
-    padding: '96px 40px', maxWidth: '1160px', margin: '0 auto',
-    borderTop: `1px solid ${PALETTE.border}`,
-  }}>
-    <SectionHeader
-      title="Proyectos Destacados"
-      subtitle="Trabajos publicados y proyectos personales desarrollados con Unreal Engine 5."
-    />
+const ProjectsSection = () => {
+  const [views, setViews] = useState(null);
 
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewportOnce}
-      style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(340px,1fr))', gap: '22px' }}
-    >
-      {PROJECTS.map((project) => (
-        <motion.div key={project.id} variants={cardVariants}>
-          <ProjectCard project={project} />
-        </motion.div>
-      ))}
+  useEffect(() => {
+    if (!API_KEY) return;
+    fetch(
+      `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${YOUTUBE_VIDEO_ID}&key=${API_KEY}`
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        const count = data?.items?.[0]?.statistics?.viewCount;
+        if (count) setViews(Number(count));
+      })
+      .catch(() => {}); // falla silenciosamente, el botón queda sin visitas
+  }, []);
 
-      {/* Placeholder */}
+  const projects = PROJECTS.map((p) =>
+    typeof p.buttons === 'function'
+      ? { ...p, buttons: p.buttons(views) }
+      : p
+  );
+
+  return (
+    <section id="proyectos" style={{
+      padding: '96px 40px', maxWidth: '1160px', margin: '0 auto',
+      borderTop: `1px solid ${PALETTE.border}`,
+    }}>
+      <SectionHeader
+        title="Proyectos Destacados"
+        subtitle="Trabajos publicados y proyectos personales desarrollados con Unreal Engine 5."
+      />
+
       <motion.div
-        variants={cardVariants}
-        style={{
-          backgroundColor: PALETTE.surface,
-          border: `2px dashed ${PALETTE.border}`,
-          borderRadius: '13px',
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          padding: '48px 24px', gap: '11px', opacity: .45,
-        }}
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(340px,1fr))', gap: '22px' }}
       >
-        <Code size={26} color={PALETTE.textMuted} />
-        <span style={{ fontSize: '13px', color: PALETTE.textMuted, fontFamily: FONTS.sans }}>
-          Más proyectos en camino…
-        </span>
+        {projects.map((project) => (
+          <motion.div key={project.id} variants={cardVariants}>
+            <ProjectCard project={project} />
+          </motion.div>
+        ))}
+
+        {/* Placeholder */}
+        <motion.div
+          variants={cardVariants}
+          style={{
+            backgroundColor: PALETTE.surface,
+            border: `2px dashed ${PALETTE.border}`,
+            borderRadius: '13px',
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center',
+            padding: '48px 24px', gap: '11px', opacity: .45,
+          }}
+        >
+          <Code size={26} color={PALETTE.textMuted} />
+          <span style={{ fontSize: '13px', color: PALETTE.textMuted, fontFamily: FONTS.sans }}>
+            Más proyectos en camino…
+          </span>
+        </motion.div>
       </motion.div>
-    </motion.div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default ProjectsSection;
