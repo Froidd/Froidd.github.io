@@ -22,7 +22,7 @@ const Footer = () => (
           backgroundColor: PALETTE.success, display: 'inline-block',
         }} />
         <span style={{ fontSize: '11px', color: PALETTE.textMuted, fontFamily: FONTS.sans }}>
-          Build: 2026.1.0 · UE 5.4+
+          Build: 11.05.2026 · UE 5.4+
         </span>
       </div>
     </div>

@@ -43,7 +43,7 @@ const PROJECTS = [
     year: '2026',
     buttons: (views) => [
       {
-        label: views ? `! Ver Video · ${formatViews(views)} 👁 !` : '! Ver Video !',
+        label: views ? `! Ver Video · ${formatViews(views)} Visitas !` : '! Ver Video !',
         url: `https://www.youtube.com/watch?v=${YOUTUBE_VIDEO_ID}`,
         icon: PopcornIcon,
         style: 'youtube',
